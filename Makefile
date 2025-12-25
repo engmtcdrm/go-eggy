@@ -12,36 +12,21 @@ test:
 testv:
 	@go test -v ./...
 
-# Build for application
-build:
-	@echo "Size before build:"; \
-	ls -la |grep $(PARENT_DIR); \
-	ls -lh |grep $(PARENT_DIR); \
-	echo "\n\nSize after build:"; \
-	CGO_ENABLED=0 go build --ldflags "-s -w"; \
-	strip $(PARENT_DIR); \
-	ls -la |grep $(PARENT_DIR); \
-	ls -lh |grep $(PARENT_DIR)
-
-# Run for application
-run:
-	@go run .
-
 # Build for package examples
-buildexample:
+build:
 	@cd example; \
 	echo "Size before build:"; \
-	ls -la |grep 'example'; \
-	ls -lh |grep example; \
+	ls -la |grep ___example; \
+	ls -lh |grep ___example; \
 	echo "\n\nSize after build:"; \
-	CGO_ENABLED=0 go build --ldflags "-s -w"; \
-	strip example; \
-	ls -la |grep example; \
-	ls -lh |grep example; \
+	CGO_ENABLED=0 go build --ldflags "-s -w" -o ___example; \
+	strip ___example; \
+	ls -la |grep ___example; \
+	ls -lh |grep ___example; \
 	cd ..
 
 # Run for package examples
-runexample:
+run:
 	@cd example; \
 	go run main.go; \
 	cd ..
