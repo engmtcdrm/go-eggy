@@ -9,7 +9,7 @@ import (
 
 var AllExamples = []eggy.Example{
 	{Name: "No Repeat Example", Fn: NoRepeatExample},
-	{Name: "Continue to Prompt Examples", Fn: RepeatPromptExample},
+	{Name: "Continue to Prompt Example", Fn: RepeatPromptExample},
 }
 
 var promptExamples = []eggy.Example{
