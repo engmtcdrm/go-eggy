@@ -169,7 +169,7 @@ eggy.DefaultIconFunc = func(icon string) string {
 
 ## Example Project Structure
 
-For a complete example, see the [example](./example) directory:
+For a complete working example of eggy in action, see the [example](./example) directory. This is a great way to see how eggy works and get ideas for how to structure your own example runners.
 
 ```
 example/
@@ -177,6 +177,13 @@ example/
 ├── examples/
 │   └── all_examples.go  # Example definitions
 └── go.mod
+```
+
+To run the examples:
+
+```bash
+cd example
+go run .
 ```
 
 ## License
