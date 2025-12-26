@@ -28,6 +28,7 @@ func NewExamplePrompt(examples []Example) *ExamplePrompt {
 	return &ExamplePrompt{examples: examples}
 }
 
+// Title sets the title of the example prompt.
 func (ep *ExamplePrompt) Title(title string) *ExamplePrompt {
 	ep.title = title
 	return ep
