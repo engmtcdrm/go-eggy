@@ -14,19 +14,19 @@ testv:
 
 # Build for package examples
 build:
-	@cd example; \
+	@cd examples; \
 	echo "Size before build:"; \
-	ls -la |grep ___example; \
-	ls -lh |grep ___example; \
+	ls -la |grep ___examples; \
+	ls -lh |grep ___examples; \
 	echo "\n\nSize after build:"; \
-	CGO_ENABLED=0 go build --ldflags "-s -w" -o ___example; \
-	strip ___example; \
-	ls -la |grep ___example; \
-	ls -lh |grep ___example; \
+	CGO_ENABLED=0 go build --ldflags "-s -w" -o ___examples; \
+	strip ___examples; \
+	ls -la |grep ___examples; \
+	ls -lh |grep ___examples; \
 	cd ..
 
 # Run for package examples
 run:
-	@cd example; \
+	@cd examples; \
 	go run main.go; \
 	cd ..

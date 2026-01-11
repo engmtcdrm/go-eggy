@@ -1,5 +1,5 @@
-// Package examples provides a collection of examples for this project
-package examples
+// Package internal provides a collection of examples for this project
+package internal
 
 import (
 	"fmt"
