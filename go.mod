@@ -1,6 +1,6 @@
 module github.com/engmtcdrm/go-eggy
 
-go 1.25.8
+go 1.25.9
 
 require (
 	github.com/engmtcdrm/go-pardon v0.0.0-20251015210019-f3dbc0f5b83a

@@ -1,6 +1,6 @@
 module example.com/example
 
-go 1.25.8
+go 1.25.9
 
 replace github.com/engmtcdrm/go-eggy => ../
 
