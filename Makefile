@@ -30,3 +30,6 @@ run:
 	@cd examples; \
 	go run main.go; \
 	cd ..
+
+testcover:
+	@go test -coverprofile=coverage.out && go tool cover -html=coverage.out -o coverage.html
