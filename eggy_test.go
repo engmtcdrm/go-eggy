@@ -5,6 +5,8 @@ import (
 	"io"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestNewExamplePrompt(t *testing.T) {
@@ -16,37 +18,18 @@ func TestNewExamplePrompt(t *testing.T) {
 
 		ep := NewExamplePrompt(examples)
 
-		if ep == nil {
-			t.Fatal("expected ExamplePrompt to be non-nil")
-		}
-
-		if len(ep.examples) != 2 {
-			t.Errorf("expected 2 examples, got %d", len(ep.examples))
-		}
-
-		if ep.examples[0].Name != "Test1" {
-			t.Errorf("expected first example name to be 'Test1', got '%s'", ep.examples[0].Name)
-		}
-
-		if ep.examples[1].Name != "Test2" {
-			t.Errorf("expected second example name to be 'Test2', got '%s'", ep.examples[1].Name)
-		}
+		require.NotNil(t, ep, "expected ExamplePrompt to be non-nil")
+		require.Len(t, ep.examples, 2, "expected 2 examples in the ExamplePrompt")
+		require.Equal(t, "Test1", ep.examples[0].Name, "expected first example name to be 'Test1'")
+		require.Equal(t, "Test2", ep.examples[1].Name, "expected second example name to be 'Test2'")
 	})
 
 	t.Run("with nil examples", func(t *testing.T) {
 		ep := NewExamplePrompt(nil)
 
-		if ep == nil {
-			t.Fatal("expected ExamplePrompt to be non-nil")
-		}
-
-		if ep.examples == nil {
-			t.Error("expected examples to be initialized to empty slice, got nil")
-		}
-
-		if len(ep.examples) != 0 {
-			t.Errorf("expected 0 examples, got %d", len(ep.examples))
-		}
+		require.NotNil(t, ep, "expected ExamplePrompt to be non-nil")
+		require.NotNil(t, ep.examples, "expected examples to be initialized to empty slice")
+		require.Len(t, ep.examples, 0, "expected 0 examples in the ExamplePrompt")
 	})
 
 	t.Run("with empty examples", func(t *testing.T) {
@@ -54,13 +37,8 @@ func TestNewExamplePrompt(t *testing.T) {
 
 		ep := NewExamplePrompt(examples)
 
-		if ep == nil {
-			t.Fatal("expected ExamplePrompt to be non-nil")
-		}
-
-		if len(ep.examples) != 0 {
-			t.Errorf("expected 0 examples, got %d", len(ep.examples))
-		}
+		require.NotNil(t, ep, "expected ExamplePrompt to be non-nil")
+		require.Len(t, ep.examples, 0, "expected 0 examples in the ExamplePrompt")
 	})
 }
 
@@ -70,33 +48,23 @@ func TestExamplePrompt_Title(t *testing.T) {
 
 		result := ep.Title("My Examples")
 
-		if result != ep {
-			t.Error("expected Title to return the same ExamplePrompt instance")
-		}
-
-		if ep.title != "My Examples" {
-			t.Errorf("expected title to be 'My Examples', got '%s'", ep.title)
-		}
+		require.Equal(t, ep, result, "expected Title to return the same ExamplePrompt instance")
+		require.Equal(t, "My Examples", ep.title, "expected title to be 'My Examples'")
 	})
 
 	t.Run("set empty title", func(t *testing.T) {
 		ep := NewExamplePrompt(nil)
 		ep.Title("Initial Title")
-
 		ep.Title("")
 
-		if ep.title != "" {
-			t.Errorf("expected title to be empty, got '%s'", ep.title)
-		}
+		require.Equal(t, "", ep.title, "expected title to be empty")
 	})
 
 	t.Run("method chaining", func(t *testing.T) {
 		ep := NewExamplePrompt(nil).
 			Title("Chained Title")
 
-		if ep.title != "Chained Title" {
-			t.Errorf("expected title to be 'Chained Title', got '%s'", ep.title)
-		}
+		require.Equal(t, "Chained Title", ep.title, "expected title to be 'Chained Title'")
 	})
 }
 
@@ -106,41 +74,29 @@ func TestExamplePrompt_Repeat(t *testing.T) {
 
 		result := ep.Repeat(true)
 
-		if result != ep {
-			t.Error("expected Repeat to return the same ExamplePrompt instance")
-		}
-
-		if !ep.repeat {
-			t.Error("expected repeat to be true")
-		}
+		require.Equal(t, ep, result, "expected Repeat to return the same ExamplePrompt instance")
+		require.True(t, ep.repeat, "expected repeat to be true")
 	})
 
 	t.Run("set repeat false", func(t *testing.T) {
 		ep := NewExamplePrompt(nil)
 		ep.Repeat(true)
-
 		ep.Repeat(false)
 
-		if ep.repeat {
-			t.Error("expected repeat to be false")
-		}
+		require.False(t, ep.repeat, "expected repeat to be false")
 	})
 
 	t.Run("default repeat is false", func(t *testing.T) {
 		ep := NewExamplePrompt(nil)
 
-		if ep.repeat {
-			t.Error("expected default repeat to be false")
-		}
+		require.False(t, ep.repeat, "expected default repeat to be false")
 	})
 
 	t.Run("method chaining", func(t *testing.T) {
 		ep := NewExamplePrompt(nil).
 			Repeat(true)
 
-		if !ep.repeat {
-			t.Error("expected repeat to be true after chaining")
-		}
+		require.True(t, ep.repeat, "expected repeat to be true after chaining")
 	})
 }
 
@@ -154,17 +110,9 @@ func TestExamplePrompt_MethodChaining(t *testing.T) {
 			Title("Test Title").
 			Repeat(true)
 
-		if ep.title != "Test Title" {
-			t.Errorf("expected title to be 'Test Title', got '%s'", ep.title)
-		}
-
-		if !ep.repeat {
-			t.Error("expected repeat to be true")
-		}
-
-		if len(ep.examples) != 1 {
-			t.Errorf("expected 1 example, got %d", len(ep.examples))
-		}
+		require.Equal(t, "Test Title", ep.title, "expected title to be 'Test Title'")
+		require.True(t, ep.repeat, "expected repeat to be true")
+		require.Len(t, ep.examples, 1, "expected 1 example in the ExamplePrompt")
 	})
 }
 
@@ -178,14 +126,10 @@ func TestExample(t *testing.T) {
 			Fn:   fn,
 		}
 
-		if example.Name != "Test Example" {
-			t.Errorf("expected Name to be 'Test Example', got '%s'", example.Name)
-		}
+		require.Equal(t, "Test Example", example.Name, "expected Name to be 'Test Example'")
 
 		example.Fn()
-		if !called {
-			t.Error("expected Fn to be called")
-		}
+		require.True(t, called, "expected Fn to be called")
 	})
 
 	t.Run("nil function", func(t *testing.T) {
@@ -194,13 +138,8 @@ func TestExample(t *testing.T) {
 			Fn:   nil,
 		}
 
-		if example.Name != "Nil Fn Example" {
-			t.Errorf("expected Name to be 'Nil Fn Example', got '%s'", example.Name)
-		}
-
-		if example.Fn != nil {
-			t.Error("expected Fn to be nil")
-		}
+		require.Equal(t, "Nil Fn Example", example.Name, "expected Name to be 'Nil Fn Example'")
+		require.Nil(t, example.Fn, "expected Fn to be nil")
 	})
 }
 
@@ -222,9 +161,7 @@ func TestExamplePrompt_Show_NoExamples(t *testing.T) {
 	output := buf.String()
 
 	expected := "No examples available.\n"
-	if output != expected {
-		t.Errorf("expected output '%s', got '%s'", expected, output)
-	}
+	require.Equal(t, expected, output, "expected output to indicate no examples available")
 }
 
 func TestExamplePrompt_Show_WithTitle_NoExamples(t *testing.T) {
@@ -246,9 +183,7 @@ func TestExamplePrompt_Show_WithTitle_NoExamples(t *testing.T) {
 	output := buf.String()
 
 	expected := "My Test Title\n\nNo examples available.\n"
-	if output != expected {
-		t.Errorf("expected output '%s', got '%s'", expected, output)
-	}
+	require.Equal(t, expected, output, "expected output to include title and indicate no examples available")
 }
 
 func TestDefaultFuncs(t *testing.T) {
